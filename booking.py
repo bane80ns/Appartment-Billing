@@ -44,7 +44,28 @@ else:
     print("Client JMBG is not valid / Must have 13 digits")
     sys.exit(1)
 
+
 sql_values = (apartment_id, booking_start_date_formatted, booking_end_date_formatted, client_jmbg)
 query = "INSERT INTO rent_table (apartment_id, booking_start_date, booking_end_date, client_jmbg) VALUES (%s, %s, %s, %s)"
 
-db.execute(query, sql_values)
+check_query = """
+    SELECT COUNT(*) AS conflict_count
+    FROM rent_table
+    WHERE apartment_id = %s
+    AND (booking_start_date <= %s AND booking_end_date >= %s);
+"""
+
+conflict_values = (apartment_id, booking_end_date_formatted, booking_start_date_formatted)
+result = db.query(check_query, conflict_values)  # Execute query
+
+
+if result and isinstance(result, list) and len(result) > 0:
+    conflict_count = result[0]['conflict_count']
+else:
+    conflict_count = 0
+
+if conflict_count > 0:
+    print("Apartment is ALREADY BOOKED during this period!")
+else:
+    # print("Apartment can be booked for this period of time.")
+    db.execute(query, sql_values)

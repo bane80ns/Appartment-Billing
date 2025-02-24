@@ -14,7 +14,7 @@ if len(args[0]) > 33 or len(args[1]) > 33:
     sys.exit(1)
 
 location = args[0]
-apartment_name = args[1]
+apartment_name = args[1].lower()
 premium_status = 1 if len(args) > 2 else None
 
 sql_values = (location, apartment_name, premium_status)
