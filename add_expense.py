@@ -63,12 +63,6 @@ due_date = args[4]
 
 paid_status = "unpaid"
 
-print(type(bill_amount))
-print(bill_amount)
-print(billing_period_formatted)
-print(due_date_string_formatted)
-
 sql_values = (apartment_id, bill_type, bill_amount, billing_period_formatted, due_date_string_formatted, paid_status)
 query = "INSERT INTO expenses_table (apartment_id, bill_type, bill_amount, billing_period, due_date, paid_status) VALUES (%s, %s, %s, %s, %s, %s)"
-
 db.execute(query, sql_values)
