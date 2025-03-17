@@ -13,7 +13,7 @@ if len(args[0]) > 33 or len(args[1]) > 33:
     print("Location and/or City Name cannot be more than 32 characters")
     sys.exit(1)
 
-location = args[0]
+location = args[0].lower()
 apartment_name = args[1].lower()
 premium_status = 1 if len(args) > 2 else None
 
